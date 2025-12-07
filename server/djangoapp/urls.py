@@ -7,6 +7,7 @@ from . import views
 app_name = 'djangoapp'
 urlpatterns = [
     # # path for registration
+    path('admin/', admin.site.urls),
     path(route='get_dealers', view=views.get_dealerships, name='get_dealers'),
     path(route='get_dealers/<str:state>', view=views.get_dealerships, name='get_dealers_by_state'),
     # path for login
@@ -18,4 +19,5 @@ urlpatterns = [
 
     path(route='get_cars', view=views.get_cars, name ='getcars'),
     path(route='add_review', view=views.add_review, name='add_review'),
+    path('login/', TemplateView.as_view(template_name="index.html")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
