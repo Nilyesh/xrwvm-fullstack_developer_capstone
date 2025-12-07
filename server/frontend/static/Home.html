@@ -7,10 +7,24 @@
 <script>
 
 const logout = async (e) => {
-//Include the code for logout here.
-};
+  //Include the code for logout here.
+const res = await fetch(logout_url, { method: "GET" });
+const json = await res.json();
+if (json) {
+        // Clear session storage and reload page
+        let username = sessionStorage.getItem("username");
+        sessionStorage.removeItem("username");
+        window.location.href = window.location.origin;
+        window.location.reload();
 
-let checkSession = ()=>{
+        // Notify user of logout
+        alert("Logging out " + username + "...");
+  } else {
+        alert("The user could not be logged out.");
+      }
+    });
+
+  let checkSession = ()=>{
   let curr_user = sessionStorage.getItem("username");
 
   if (curr_user && curr_user !== "") {
