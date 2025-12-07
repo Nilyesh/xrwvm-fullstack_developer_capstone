@@ -1,12 +1,12 @@
 # Uncomment the required imports before adding the code
 
-# from django.shortcuts import render
-# from django.http import HttpResponseRedirect, HttpResponse
-# from django.contrib.auth.models import User
-# from django.shortcuts import get_object_or_404, render, redirect
-# from django.contrib.auth import logout
-# from django.contrib import messages
-# from datetime import datetime
+from django.shortcuts import render
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth import logout
+from django.contrib import messages
+from datetime import datetime
 from .models import CarMake, CarModel
 
 from django.http import JsonResponse
@@ -14,7 +14,7 @@ from django.contrib.auth import login, authenticate
 import logging
 import json
 from django.views.decorators.csrf import csrf_exempt
-# from .populate import initiate
+from .populate import initiate
 
 
 # Get an instance of a logger
@@ -40,13 +40,39 @@ def login_user(request):
     return JsonResponse(data)
 
 # Create a `logout_request` view to handle sign out request
-# def logout_request(request):
-# ...
+def logout_request(request):
+logout(request)		# Terminate user session
+data = {"userName":""}	# Return empty username
+return JsonResponse(data)
 
 # Create a `registration` view to handle sign up request
-# @csrf_exempt
-# def registration(request):
-# ...
+@csrf_exempt
+def registration(request):
+if request.method == "POST":
+        try:
+            # Parse JSON body
+            data = json.loads(request.body.decode("utf-8"))
+            username = data.get("username")
+            password = data.get("password")
+            email = data.get("email")
+            first_name = data.get("first_name")
+            last_name = data.get("last_name")
+# Check if user already exists
+if User.objects.filter(username=username).exists():
+return JsonResponse({"error": "Username already taken"}, status=400)
+# Create new user
+            user = User.objects.create_user(
+            username=username,
+            password=password,
+            email=email,
+            first_name=first_name,
+            last_name=last_name
+            )
+return JsonResponse({"message": "User registered successfully", "username": user.username}, status=201)
+
+except Exception as e:
+return JsonResponse({"error": str(e)}, status=400)
+return JsonResponse({"error": "Invalid request method"}, status=405)
 
 # # Update the `get_dealerships` view to render the index page with
 # a list of dealerships
