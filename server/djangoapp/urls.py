@@ -1,3 +1,4 @@
+
 # Uncomment the imports before you add the code
 from django.urls import path
 from django.conf.urls.static import static
@@ -20,4 +21,5 @@ urlpatterns = [
     path(route='get_cars', view=views.get_cars, name ='getcars'),
     path(route='add_review', view=views.add_review, name='add_review'),
     path('login/', TemplateView.as_view(template_name="index.html")),
+    path('logout/', view=views.logout_user, name='logout'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
