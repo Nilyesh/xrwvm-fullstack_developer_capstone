@@ -14,53 +14,42 @@ class CarMake(models.Model):
 
 # CarModel model
 class CarModel(models.Model):
-    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)  # link to CarMake
-
     CAR_TYPES = [
         ('SEDAN', 'Sedan'),
         ('SUV', 'SUV'),
         ('WAGON', 'Wagon'),
         # Add more choices as required
     ]
-
     name = models.CharField(max_length=50)
-    dealer_id = models.IntegerField()
+    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)  # link to CarMake
     type = models.CharField(max_length=10, choices=CAR_TYPES, default='SUV')
+    dealer_id = models.IntegerField()
     year = models.IntegerField(
         validators=[MinValueValidator(2015), MaxValueValidator(2023)]
     )
-
-    def __str__(self):
-        return f"{self.name} ({self.year})"
+            
+def __str__(self):
+    return f"{self.name} ({self.year})"
     
         # Add more choices as required
     
     # Other fields as needed
 
 class CarMake(models.Model):
-    name = mdoels.CharField(max_length=100)
-    description = model.TextField()
-    type = models.CharField(max_length=10, choices=CAR_TYPES, default='SUV')
-    def __str__ (self):
-        return self.name   # method to print a car make object
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+def __str__ (self):
+    return self.name   # method to print a car make object
 
 class CarModel(models.Model):
-car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE) # - Many-To-One relationship 
-name = models.CharField(max_length=100)
-CAR_TYPES = [
+    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE) # - Many-To-One relationship 
+    name = models.CharField(max_length=100)
+    CAR_TYPES = [
         ('SEDAN', 'Sedan'),
         ('SUV', 'SUV'),
-        ('WAGON', 'Wagon'),        
-type = models.CharField(max_length=10, choices=CAR_TYPES, default='SUV')
-year = models.IntegerField(default=2023,
+        ('WAGON', 'Wagon'),  
+    ]      
+    year = models.IntegerField(default=2023,
         validators=[MinValueValidator(2015), MaxValueValidator(2023)])
 def __str__ (self):
-        return self.name   # method to print a car make object
-class CarMakeAdmin(admin.ModelAdmin):
-    list_display = ("name", "description")
-
-class CarModelAdmin(admin.ModelAdmin):
-    list_display = ("name", "type", "year", "dealer_id", "car_make")
-
-admin.site.register(CarMake, CarMakeAdmin)
-admin.site.register(CarModel, CarModelAdmin)
+    return self.name   # method to print a car make object
