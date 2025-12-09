@@ -18,7 +18,7 @@ urlpatterns = [
     path('reviews/dealer/<int:dealer_id>/', view=views.get_dealer_reviews, name='dealer_reviews'),
 
     # User authentication paths
-    path('login/', view=views.login_user, name='login'),
+    path(route='login/', view=views.login_user, name='login'),
     path('register/', view=views.registration, name='register'),
 
     # Review submission path
