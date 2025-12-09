@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import LoginPanel from "./components/Login/Login"
 import Register from "./components/Register/Register";
-import Dealer from "./components/Dealers/Dealers";
+import Dealers from "./components/Dealers/Dealers";
 import DealerDetails from "./components/DealerDetails";
 import PostReview from "./components/Dealers/PostReview";
 
