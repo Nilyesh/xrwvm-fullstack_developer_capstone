@@ -62,7 +62,7 @@ try {
     const dealers = await Dealership.find();
     res.json(dealers);
   } catch (error) {
-    res.status(500).json(error: 'Error fecting documents');
+    res.status(500).json(error: 'Error fetching documents');
   }
 });
 
@@ -73,7 +73,7 @@ try {
     const dealers = await Dealership.find({ state: state });
     res.json(dealers);
 } 	catch (error) {
-    res.status(500).json(error: 'Error fecting documents');
+    res.status(500).json(error: 'Error fetching documents');
 }
 });
 
@@ -84,7 +84,7 @@ try {
     const dealer = await Dealership.findById(dealerId);
     res.json(dealer);
 } 	catch (error) {
-    res.status(500).json(error: 'Error fecting documents');
+    res.status(500).json(error: 'Error fetching documents');
 }
 });
 
