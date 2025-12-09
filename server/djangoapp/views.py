@@ -45,6 +45,9 @@ def registration(request):
             password = data.get('password')
             first_name = data.get('firstName', '')
             last_name = data.get('lastName', '')
+            email = data['email'] 
+            username_exist = False 
+            email_exist = False 
             if User.objects.filter(username=username).exists():
                 return JsonResponse({"error": "Username already exists"}, status=400)
             user = User.objects.create_user(username=username, password=password,
