@@ -14,22 +14,21 @@ class CarMake(models.Model):
 
 # CarModel model
 class CarModel(models.Model):
+    name = models.CharField(max_length=50)
+    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)  # link to CarMake
     CAR_TYPES = [
         ('SEDAN', 'Sedan'),
         ('SUV', 'SUV'),
         ('WAGON', 'Wagon'),
         # Add more choices as required
     ]
-    name = models.CharField(max_length=50)
-    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)  # link to CarMake
     type = models.CharField(max_length=10, choices=CAR_TYPES, default='SUV')
-    dealer_id = models.IntegerField()
     year = models.IntegerField(
         validators=[MinValueValidator(2015), MaxValueValidator(2023)]
     )
             
-def __str__(self):
-    return f"{self.name} ({self.year})"
+    def __str__(self):
+        return f"{self.name} ({self.year})"
     
         # Add more choices as required
     
