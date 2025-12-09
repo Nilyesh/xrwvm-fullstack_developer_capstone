@@ -2,14 +2,13 @@ import React, { useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import "./Dealers.css";
 import "../assets/style.css";
-import positive_icon from "../assets/positive.png"
-import neutral_icon from "../assets/neutral.png"
-import negative_icon from "../assets/negative.png"
-import review_icon from "../assets/reviewbutton.png"
+import positive_icon from "../assets/positive.png";
+import neutral_icon from "../assets/neutral.png";
+import negative_icon from "../assets/negative.png";
+import review_icon from "../assets/reviewbutton.png";
 import Header from '../Header/Header';
 
 const Dealer = () => {
-
 
   const [dealer, setDealer] = useState({});
   const [reviews, setReviews] = useState([]);
@@ -23,7 +22,8 @@ const Dealer = () => {
   let dealer_url = root_url+`djangoapp/dealer/${id}`;
   let reviews_url = root_url+`djangoapp/reviews/dealer/${id}`;
   let post_review = root_url+`postreview/${id}`;
-  
+
+ 
   const get_dealer = async ()=>{
     const res = await fetch(dealer_url, {
       method: "GET"
