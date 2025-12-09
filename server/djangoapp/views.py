@@ -92,3 +92,15 @@ def add_review(request):
             logger.error(f"Add review error: {e}")
             return JsonResponse({"error": "Invalid request"}, status=400)
     return JsonResponse({"error": "POST request required"}, status=405)
+
+def get_cars(request): 
+        count = CarMake.objects.filter().count() 
+        print(count) 
+    if(count == 0): 
+    initiate() 
+        car_models = CarModel.objects.select_related('car_make') 
+        cars = [] 
+    for car_model in car_models: 
+        cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name}) 
+    return JsonResponse({"CarModels":cars}) 
+
