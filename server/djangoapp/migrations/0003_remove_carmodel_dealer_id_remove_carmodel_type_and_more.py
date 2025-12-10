@@ -7,26 +7,32 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('djangoapp', '0002_alter_carmodel_year'),
+        ("djangoapp", "0002_alter_carmodel_year"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='carmodel',
-            name='dealer_id',
+            model_name="carmodel",
+            name="dealer_id",
         ),
         migrations.RemoveField(
-            model_name='carmodel',
-            name='type',
+            model_name="carmodel",
+            name="type",
         ),
         migrations.AlterField(
-            model_name='carmodel',
-            name='name',
+            model_name="carmodel",
+            name="name",
             field=models.CharField(max_length=100),
         ),
         migrations.AlterField(
-            model_name='carmodel',
-            name='year',
-            field=models.IntegerField(default=2023, validators=[django.core.validators.MinValueValidator(2015), django.core.validators.MaxValueValidator(2023)]),
+            model_name="carmodel",
+            name="year",
+            field=models.IntegerField(
+                default=2023,
+                validators=[
+                    django.core.validators.MinValueValidator(2015),
+                    django.core.validators.MaxValueValidator(2023),
+                ],
+            ),
         ),
     ]

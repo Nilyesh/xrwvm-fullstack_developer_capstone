@@ -11,13 +11,14 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 @csrf_exempt
 def login_user(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
-            username = data.get('userName')
-            password = data.get('password')
+            username = data.get("userName")
+            password = data.get("password")
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
@@ -29,6 +30,7 @@ def login_user(request):
             return JsonResponse({"error": "Invalid request"}, status=400)
     return JsonResponse({"error": "POST request required"}, status=405)
 
+
 @csrf_exempt
 def logout_user(request):
     if request.method == "POST":
@@ -36,22 +38,24 @@ def logout_user(request):
         return JsonResponse({"message": "Logout successful"}, status=200)
     return JsonResponse({"error": "POST request required"}, status=405)
 
+
 @csrf_exempt
 def registration(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
-            username = data.get('userName')
-            password = data.get('password')
-            first_name = data.get('firstName', '')
-            last_name = data.get('lastName', '')
-            email = data['email'] 
-            username_exist = False 
-            email_exist = False 
+            username = data.get("userName")
+            password = data.get("password")
+            first_name = data.get("firstName", "")
+            last_name = data.get("lastName", "")
+            email = data["email"]
+            username_exist = False
+            email_exist = False
             if User.objects.filter(username=username).exists():
                 return JsonResponse({"error": "Username already exists"}, status=400)
-            user = User.objects.create_user(username=username, password=password,
-                                            first_name=first_name, last_name=last_name)
+            user = User.objects.create_user(
+                username=username, password=password, first_name=first_name, last_name=last_name
+            )
             user.save()
             login(request, user)
             return JsonResponse({"message": "Registration successful"}, status=201)
@@ -59,6 +63,7 @@ def registration(request):
             logger.error(f"Registration error: {e}")
             return JsonResponse({"error": "Invalid request"}, status=400)
     return JsonResponse({"error": "POST request required"}, status=405)
+
 
 def get_dealerships(request, state="All"):
     if state == "All":
@@ -68,10 +73,12 @@ def get_dealerships(request, state="All"):
     dealerships = get_request(endpoint)
     return JsonResponse({"status": 200, "dealers": dealerships})
 
+
 def get_dealer_details(request, dealer_id):
     endpoint = f"/getDealerDetails/{dealer_id}"
     dealer = get_request(endpoint)
     return JsonResponse({"status": 200, "dealer": dealer})
+
 
 def get_dealer_reviews(request, dealer_id):
     endpoint = f"/getDealerReviews/{dealer_id}"
@@ -80,10 +87,11 @@ def get_dealer_reviews(request, dealer_id):
     for review in reviews:
         review["sentiment"] = analyze_review_sentiments(review.get("review", ""))
         print(response)
-        review_detail['sentiment'] = response['sentiment'] 
+        review_detail["sentiment"] = response["sentiment"]
         return JsonResponse({"status": 200, "reviews": reviews})
     else:
-        return JsonResponse({"status":400,"message":"Bad Request"}) 
+        return JsonResponse({"status": 400, "message": "Bad Request"})
+
 
 @csrf_exempt
 def add_review(request):
@@ -97,14 +105,14 @@ def add_review(request):
             return JsonResponse({"error": "Invalid request"}, status=400)
     return JsonResponse({"error": "POST request required"}, status=405)
 
-def get_cars(request): 
-        count = CarMake.objects.filter().count() 
-        print(count) 
-        if(count == 0): 
-            initiate() 
-        car_models = CarModel.objects.select_related('car_make') 
-        cars = [] 
-        for car_model in car_models: 
-            cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name}) 
-        return JsonResponse({"CarModels":cars}) 
 
+def get_cars(request):
+    count = CarMake.objects.filter().count()
+    print(count)
+    if count == 0:
+        initiate()
+    car_models = CarModel.objects.select_related("car_make")
+    cars = []
+    for car_model in car_models:
+        cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name})
+    return JsonResponse({"CarModels": cars})
