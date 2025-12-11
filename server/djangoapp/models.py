@@ -32,29 +32,17 @@ class CarModel(models.Model):
         return f"{self.name} ({self.year})"
 
         # Add more choices as required
+class Dealer(models.Model):
+    name = models.CharField(max_length=100)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    address = models.CharField(max_length=200)
+    zip_code = models.CharField(max_length=10)
+    phone = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.name
+        
     # Other fields as needed
 
-
-class CarMake(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-
-
-def __str__(self):
-    return self.name  # method to print a car make object
-
-
-class CarModel(models.Model):
-    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)  # - Many-To-One relationship
-    name = models.CharField(max_length=100)
-    CAR_TYPES = [
-        ("SEDAN", "Sedan"),
-        ("SUV", "SUV"),
-        ("WAGON", "Wagon"),
-    ]
-    year = models.IntegerField(default=2023, validators=[MinValueValidator(2015), MaxValueValidator(2023)])
-
-
-def __str__(self):
-    return self.name  # method to print a car make object
+ # method to print a car make object

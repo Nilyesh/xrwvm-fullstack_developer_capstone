@@ -5,9 +5,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 import json
-from .models import CarMake, CarModel
-from .restapis import get_request, analyze_review_sentiments, post_review
 import logging
+
+from .models import CarMake, CarModel, Dealer
+from .restapis import get_request, analyze_review_sentiments, post_review
 
 logger = logging.getLogger(__name__)
 
@@ -65,13 +66,40 @@ def registration(request):
     return JsonResponse({"error": "POST request required"}, status=405)
 
 
+from django.http import JsonResponse
+from .models import Dealer
+from .restapis import get_request
+
 def get_dealerships(request, state="All"):
-    if state == "All":
-        endpoint = "/fetchDealers"
-    else:
-        endpoint = f"/fetchDealers/{state}"
-    dealerships = get_request(endpoint)
-    return JsonResponse({"status": 200, "dealers": dealerships})
+    try:
+        # --- Option 1: Direct DB query ---
+        if state == "All":
+            dealers = Dealer.objects.all()
+        else:
+            dealers = Dealer.objects.filter(state=state)
+
+        if dealers.exists():
+            data = list(dealers.values("id", "full_name", "city", "state", "address", "zip"))
+            return JsonResponse({"status": 200, "dealers": data})
+
+        # --- Option 2: Fallback to microservice ---
+        if state == "All":
+            endpoint = "/fetchDealers"
+        else:
+            endpoint = f"/fetchDealers/{state}"
+
+        dealerships = get_request(endpoint)
+
+        # Ensure we always return a list
+        if dealerships is None:
+            dealerships = []
+
+        return JsonResponse({"status": 200, "dealers": dealerships})
+
+    except Exception as e:
+        print(f"Error in get_dealerships: {e}")
+        return JsonResponse({"status": 500, "dealers": []})
+
 
 
 def get_dealer_details(request, dealer_id):
