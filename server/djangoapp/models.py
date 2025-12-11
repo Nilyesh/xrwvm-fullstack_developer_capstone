@@ -32,6 +32,8 @@ class CarModel(models.Model):
         return f"{self.name} ({self.year})"
 
         # Add more choices as required
+
+
 class Dealer(models.Model):
     name = models.CharField(max_length=100)
     city = models.CharField(max_length=50)
@@ -42,7 +44,8 @@ class Dealer(models.Model):
 
     def __str__(self):
         return self.name
-        
+
     # Other fields as needed
 
- # method to print a car make object
+
+# method to print a car make object

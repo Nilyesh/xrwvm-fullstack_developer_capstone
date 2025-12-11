@@ -70,6 +70,7 @@ from django.http import JsonResponse
 from .models import Dealer
 from .restapis import get_request
 
+
 def get_dealerships(request, state="All"):
     try:
         # --- Option 1: Direct DB query ---
@@ -99,7 +100,6 @@ def get_dealerships(request, state="All"):
     except Exception as e:
         print(f"Error in get_dealerships: {e}")
         return JsonResponse({"status": 500, "dealers": []})
-
 
 
 def get_dealer_details(request, dealer_id):
