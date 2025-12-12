@@ -25,9 +25,7 @@ def login_user(request):
                 login(request, user)
                 return JsonResponse({"message": "Login successful"}, status=200)
             else:
-                return JsonResponse(
-                    {"error": "Invalid username or password"}, status=401
-                )
+                return JsonResponse({"error": "Invalid username or password"}, status=401)
         except Exception as e:
             logger.error(f"Login error: {e}")
             return JsonResponse({"error": "Invalid request"}, status=400)
@@ -85,9 +83,7 @@ def get_dealerships(request, state="All"):
             dealers = Dealer.objects.filter(state=state)
 
         if dealers.exists():
-            data = list(
-                dealers.values("id", "full_name", "city", "state", "address", "zip")
-            )
+            data = list(dealers.values("id", "full_name", "city", "state", "address", "zip"))
             return JsonResponse({"status": 200, "dealers": data})
 
         # --- Option 2: Fallback to microservice ---
