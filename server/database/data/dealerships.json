@@ -1,5 +1,4 @@
-{
-  "dealerships": [
+[
     {
       "id": 1,
       "city": "El Paso",
@@ -600,5 +599,4 @@
       "short_name": "Aerified",
       "full_name": "Aerified Car Dealership"
     }
-  ]
-}
+]

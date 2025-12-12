@@ -1,0 +1,552 @@
+[
+  {
+    "model": "djangoapp.dealer",
+    "pk": 1,
+    "fields": {
+      "name": "Holdlamis Car Dealership",
+      "city": "El Paso",
+      "state": "TX",
+      "address": "3 Nova Court",
+      "zip_code": "88563"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 2,
+    "fields": {
+      "name": "Temp Car Dealership",
+      "city": "Minneapolis",
+      "state": "MN",
+      "address": "6337 Butternut Crossing",
+      "zip_code": "55402"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 3,
+    "fields": {
+      "name": "Sub-Ex Car Dealership",
+      "city": "Birmingham",
+      "state": "AL",
+      "address": "9477 Twin Pines Center",
+      "zip_code": "35285"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 4,
+    "fields": {
+      "name": "Solarbreeze Car Dealership",
+      "city": "Dallas",
+      "state": "TX",
+      "address": "85800 Hazelcrest Circle",
+      "zip_code": "75241"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 5,
+    "fields": {
+      "name": "Regrant Car Dealership",
+      "city": "Baltimore",
+      "state": "MD",
+      "address": "93 Golf Course Pass",
+      "zip_code": "21203"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 6,
+    "fields": {
+      "name": "Stronghold Car Dealership",
+      "city": "Wilkes Barre",
+      "state": "PA",
+      "address": "2 Burrows Hill",
+      "zip_code": "18763"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 7,
+    "fields": {
+      "name": "Job Car Dealership",
+      "city": "Pueblo",
+      "state": "CO",
+      "address": "9 Cambridge Park",
+      "zip_code": "81010"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 8,
+    "fields": {
+      "name": "Bytecard Car Dealership",
+      "city": "Topeka",
+      "state": "KS",
+      "address": "288 Larry Place",
+      "zip_code": "66642"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 9,
+    "fields": {
+      "name": "Job Car Dealership",
+      "city": "Dallas",
+      "state": "TX",
+      "address": "253 Hanson Junction",
+      "zip_code": "75216"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 10,
+    "fields": {
+      "name": "Alphazap Car Dealership",
+      "city": "Washington",
+      "state": "DC",
+      "address": "108 Memorial Pass",
+      "zip_code": "20005"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 11,
+    "fields": {
+      "name": "Rank Car Dealership",
+      "city": "Carol Stream",
+      "state": "IL",
+      "address": "8108 Dryden Court",
+      "zip_code": "60351"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 12,
+    "fields": {
+      "name": "Tin Car Dealership",
+      "city": "Silver Spring",
+      "state": "MD",
+      "address": "168 Pawling Lane",
+      "zip_code": "20918"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 13,
+    "fields": {
+      "name": "Y-Solowarm Car Dealership",
+      "city": "Baltimore",
+      "state": "MD",
+      "address": "452 Fair Oaks Drive",
+      "zip_code": "21275"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 14,
+    "fields": {
+      "name": "It Car Dealership",
+      "city": "San Francisco",
+      "state": "CA",
+      "address": "2109 Scott Parkway",
+      "zip_code": "94147"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 15,
+    "fields": {
+      "name": "Tempsoft Car Dealership",
+      "city": "San Antonio",
+      "state": "TX",
+      "address": "5057 Pankratz Hill",
+      "zip_code": "78225"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 16,
+    "fields": {
+      "name": "Treeflex Car Dealership",
+      "city": "El Paso",
+      "state": "TX",
+      "address": "0 Rieder Trail",
+      "zip_code": "79994"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 17,
+    "fields": {
+      "name": "Home Ing Car Dealership",
+      "city": "San Jose",
+      "state": "CA",
+      "address": "7670 American Ash Drive",
+      "zip_code": "95138"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 18,
+    "fields": {
+      "name": "Bitchip Car Dealership",
+      "city": "Whittier",
+      "state": "CA",
+      "address": "4 Pearson Avenue",
+      "zip_code": "90605"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 19,
+    "fields": {
+      "name": "Otcom Car Dealership",
+      "city": "Hialeah",
+      "state": "FL",
+      "address": "93 Monument Circle",
+      "zip_code": "33013"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 20,
+    "fields": {
+      "name": "Subin Car Dealership",
+      "city": "Detroit",
+      "state": "MI",
+      "address": "4580 Waubesa Lane",
+      "zip_code": "48224"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 21,
+    "fields": {
+      "name": "Andalax Car Dealership",
+      "city": "San Francisco",
+      "state": "CA",
+      "address": "046 Mockingbird Junction",
+      "zip_code": "94154"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 22,
+    "fields": {
+      "name": "Y-Solowarm Car Dealership",
+      "city": "Fort Lauderdale",
+      "state": "FL",
+      "address": "45737 Butternut Lane",
+      "zip_code": "33330"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 23,
+    "fields": {
+      "name": "Bitchip Car Dealership",
+      "city": "Des Moines",
+      "state": "IA",
+      "address": "21425 Bartelt Pass",
+      "zip_code": "50936"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 24,
+    "fields": {
+      "name": "Aerified Car Dealership",
+      "city": "Utica",
+      "state": "NY",
+      "address": "408 Delaware Circle",
+      "zip_code": "13505"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 25,
+    "fields": {
+      "name": "Opela Car Dealership",
+      "city": "Washington",
+      "state": "DC",
+      "address": "6505 Melrose Junction",
+      "zip_code": "20580"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 26,
+    "fields": {
+      "name": "Flowdesk Car Dealership",
+      "city": "Pittsburgh",
+      "state": "PA",
+      "address": "306 Jenna Parkway",
+      "zip_code": "15279"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 27,
+    "fields": {
+      "name": "Namfix Car Dealership",
+      "city": "San Antonio",
+      "state": "TX",
+      "address": "95321 Superior Hill",
+      "zip_code": "78245"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 28,
+    "fields": {
+      "name": "Fixflex Car Dealership",
+      "city": "Hialeah",
+      "state": "FL",
+      "address": "5458 Maple Way",
+      "zip_code": "33018"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 29,
+    "fields": {
+      "name": "Fix San Car Dealership",
+      "city": "San Francisco",
+      "state": "CA",
+      "address": "9 Harper Circle",
+      "zip_code": "94110"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 30,
+    "fields": {
+      "name": "Opela Car Dealership",
+      "city": "Houston",
+      "state": "TX",
+      "address": "5423 Spaight Road",
+      "zip_code": "77218"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 31,
+    "fields": {
+      "name": "Fintone Car Dealership",
+      "city": "New York City",
+      "state": "NY",
+      "address": "5 Northfield Pass",
+      "zip_code": "10131"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 32,
+    "fields": {
+      "name": "Subin Car Dealership",
+      "city": "Wilkes Barre",
+      "state": "PA",
+      "address": "3 Carey Junction",
+      "zip_code": "18768"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 33,
+    "fields": {
+      "name": "Tres-Zap Car Dealership",
+      "city": "Des Moines",
+      "state": "IA",
+      "address": "627 Cottonwood Circle",
+      "zip_code": "50335"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 34,
+    "fields": {
+      "name": "Gembucket Car Dealership",
+      "city": "Silver Spring",
+      "state": "MD",
+      "address": "8 Green Hill",
+      "zip_code": "20904"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 35,
+    "fields": {
+      "name": "Treeflex Car Dealership",
+      "city": "Seattle",
+      "state": "WA",
+      "address": "9 Beilfuss Trail",
+      "zip_code": "98158"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 36,
+    "fields": {
+      "name": "Latlux Car Dealership",
+      "city": "Vienna",
+      "state": "VA",
+      "address": "311 Paget Alley",
+      "zip_code": "22184"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 37,
+    "fields": {
+      "name": "Ventosanzap Car Dealership",
+      "city": "Detroit",
+      "state": "MI",
+      "address": "152 Moland Lane",
+      "zip_code": "48224"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 38,
+    "fields": {
+      "name": "Zamit Car Dealership",
+      "city": "Dallas",
+      "state": "TX",
+      "address": "821 New Castle Trail",
+      "zip_code": "75226"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 39,
+    "fields": {
+      "name": "Stronghold Car Dealership",
+      "city": "Fresno",
+      "state": "CA",
+      "address": "990 Raven Road",
+      "zip_code": "93740"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 40,
+    "fields": {
+      "name": "Greenlam Car Dealership",
+      "city": "Merrifield",
+      "state": "VA",
+      "address": "89375 Main Trail",
+      "zip_code": "22119"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 41,
+    "fields": {
+      "name": "Tres-Zap Car Dealership",
+      "city": "Baltimore",
+      "state": "MD",
+      "address": "9 Sherman Hill",
+      "zip_code": "21275"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 42,
+    "fields": {
+      "name": "Konklab Car Dealership",
+      "city": "Jersey City",
+      "state": "NJ",
+      "address": "62 Manley Point",
+      "zip_code": "07310"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 43,
+    "fields": {
+      "name": "Opela Car Dealership",
+      "city": "Atlanta",
+      "state": "GA",
+      "address": "91 Declaration Avenue",
+      "zip_code": "31119"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 44,
+    "fields": {
+      "name": "Veribet Car Dealership",
+      "city": "Roanoke",
+      "state": "VA",
+      "address": "0 Northview Point",
+      "zip_code": "24014"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 45,
+    "fields": {
+      "name": "Konklux Car Dealership",
+      "city": "Norfolk",
+      "state": "VA",
+      "address": "283 Mockingbird Plaza",
+      "zip_code": "23509"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 46,
+    "fields": {
+      "name": "Regrant Car Dealership",
+      "city": "New Orleans",
+      "state": "LA",
+      "address": "527 Hayes Junction",
+      "zip_code": "70165"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 47,
+    "fields": {
+      "name": "Prodder Car Dealership",
+      "city": "Stamford",
+      "state": "CT",
+      "address": "840 Pepper Wood Crossing",
+      "zip_code": "06905"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 48,
+    "fields": {
+      "name": "It Car Dealership",
+      "city": "Tucson",
+      "state": "AZ",
+      "address": "48610 Morning Street",
+      "zip_code": "85710"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 49,
+    "fields": {
+      "name": "Veribet Car Dealership",
+      "city": "Athens",
+      "state": "GA",
+      "address": "222 Grasskamp Plaza",
+      "zip_code": "30605"
+    }
+  },
+  {
+    "model": "djangoapp.dealer",
+    "pk": 50,
+    "fields": {
+      "name": "Aerified Car Dealership",
+      "city": "Atlanta",
+      "state": "GA",
+      "address": "76 Clove Trail",
+      "zip_code": "30316"
+    }
+  }
+]

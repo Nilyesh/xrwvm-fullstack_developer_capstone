@@ -22,6 +22,7 @@ from django.conf import settings
 from djangoapp import views as djangoapp_views
 
 urlpatterns = [
+    path("login/", TemplateView.as_view(template_name="index.html")),
     path("about/", TemplateView.as_view(template_name="About.html")),
     path("admin/", admin.site.urls),
     path("djangoapp/", include("djangoapp.urls")),

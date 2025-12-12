@@ -83,7 +83,7 @@ def get_dealerships(request, state="All"):
             dealers = Dealer.objects.filter(state=state)
 
         if dealers.exists():
-            data = list(dealers.values("id", "full_name", "city", "state", "address", "zip"))
+            data = list(dealers.values("id", "name", "city", "state", "address", "zip_code"))
             return JsonResponse({"status": 200, "dealers": data})
 
         # --- Option 2: Fallback to microservice ---
