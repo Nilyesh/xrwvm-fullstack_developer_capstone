@@ -14,7 +14,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Dealer",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("name", models.CharField(max_length=100)),
                 ("city", models.CharField(max_length=50)),
                 ("state", models.CharField(max_length=50)),
@@ -27,7 +35,9 @@ class Migration(migrations.Migration):
             model_name="carmodel",
             name="type",
             field=models.CharField(
-                choices=[("SEDAN", "Sedan"), ("SUV", "SUV"), ("WAGON", "Wagon")], default="SUV", max_length=10
+                choices=[("SEDAN", "Sedan"), ("SUV", "SUV"), ("WAGON", "Wagon")],
+                default="SUV",
+                max_length=10,
             ),
         ),
         migrations.AlterField(
