@@ -148,6 +148,7 @@ def get_cars(request):
         cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name})
     return JsonResponse({"CarModels": cars})
 
+
 def index(request):
     # This function renders the main index.html file from the React build folder.
-    return render(request, 'index.html')
+    return render(request, "index.html")
