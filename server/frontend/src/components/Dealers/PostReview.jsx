@@ -62,32 +62,32 @@ const PostReview = () => {
   }
 
   }
-  const get_dealer = async ()=>{
+  useEffect(() => {
+  const get_dealer = async () => {
     const res = await fetch(dealer_url, {
       method: "GET"
     });
     const retobj = await res.json();
-    
-    if(retobj.status === 200) {
-      let dealerobjs = Array.from(retobj.dealer)
-      if(dealerobjs.length > 0)
-        setDealer(dealerobjs[0])
-    }
-  }
 
-  const get_cars = async ()=>{
+    if (retobj.status === 200) {
+      let dealerobjs = Array.from(retobj.dealer);
+      if (dealerobjs.length > 0) setDealer(dealerobjs[0]);
+    }
+  };
+
+  const get_cars = async () => {
     const res = await fetch(carmodels_url, {
       method: "GET"
     });
     const retobj = await res.json();
-    
-    let carmodelsarr = Array.from(retobj.CarModels)
-    setCarmodels(carmodelsarr)
-  }
-  useEffect(() => {
-    get_dealer();
-    get_cars();
-  },[get_cars, get_dealer]);
+
+    let carmodelsarr = Array.from(retobj.CarModels);
+    setCarmodels(carmodelsarr);
+  };
+
+  get_dealer();
+  get_cars();
+}, []); // Empty dependency array means this runs once on mount
 
 
   return (

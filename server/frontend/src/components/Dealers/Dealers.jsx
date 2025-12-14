@@ -6,51 +6,58 @@ import review_icon from "../assets/reviewicon.png";
 
 const Dealers = () => {
   const [dealersList, setDealersList] = useState([]);
-    // let [state, setState] = useState("")
-    let [states, setStates] = useState([])
-  // let root_url = window.location.origin
-    let dealer_url ="/djangoapp/get_dealers";
-    let dealer_url_by_state = "/djangoapp/get_dealers/";
- 
-  const filterDealers = async (state) => {
-    const filtered_url = dealer_url_by_state + state;
-    const res = await fetch(filtered_url, {
-      method: "GET"
-    });
-    const retobj = await res.json();
-    if(retobj.status === 200) {
-      let state_dealers = Array.from(retobj.dealers)
-      setDealersList(state_dealers)
-    }
-  }
+  const [states, setStates] = useState([]);
 
-  const get_dealers = async ()=>{
-    const res = await fetch(dealer_url, {
-      method: "GET"
-    });
-    const retobj = await res.json();
-    if(retobj.status === 200) {
-      let all_dealers = Array.from(retobj.dealers ??[]);
-      let states = [];
-    if(retobj.dealers){
-        all_dealers = Array.from(retobj.dealers);
-    }
-      all_dealers.forEach((dealer)=>{
-        states.push(dealer.state)
-      });
+  const dealer_url = "/djangoapp/get_dealers/";
 
-      setStates(Array.from(new Set(states)))
-      setDealersList(all_dealers)
-    }
-  }
+  // Fetch all dealers on component mount
   useEffect(() => {
+    const get_dealers = async () => {
+      try {
+        const res = await fetch(dealer_url, { method: "GET" });
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const retobj = await res.json();
+        if (retobj.status === 200) {
+          const all_dealers = Array.from(retobj.dealers ?? []);
+          const uniqueStates = [...new Set(all_dealers.map(dealer => dealer.state))];
+          setStates(uniqueStates);
+          setDealersList(all_dealers);
+        } else {
+          console.error("Failed to fetch dealers:", retobj);
+        }
+      } catch (error) {
+        console.error("Error fetching dealers:", error);
+      }
+    };
+
     get_dealers();
-  },[]);  
+  }, []);
+
+  // Filter dealers by state
+  const filterDealers = async (state) => {
+    try {
+      const filtered_url = dealer_url + state; // e.g., /djangoapp/get_dealers/CA
+      const res = await fetch(filtered_url, { method: "GET" });
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      const retobj = await res.json();
+      if (retobj.status === 200) {
+        const state_dealers = Array.from(retobj.dealers ?? []);
+        setDealersList(state_dealers);
+      } else {
+        console.error("Failed to fetch filtered dealers:", retobj);
+      }
+    } catch (error) {
+      console.error("Error fetching filtered dealers:", error);
+    }
+  };
 
 
 let isLoggedIn = sessionStorage.getItem("username") != null ? true : false;
-return(
-  <div>
+return(  <div>
       <Header/>
 
      <table className='table'>
