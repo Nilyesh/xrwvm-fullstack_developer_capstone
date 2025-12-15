@@ -31,6 +31,7 @@ def login_user(request):
             return JsonResponse({"error": "Invalid request"}, status=400)
     return JsonResponse({"error": "POST request required"}, status=405)
 
+
 @csrf_exempt
 def logout_user(request):
     if request.method == "POST":
@@ -152,6 +153,7 @@ def index(request):
     # This function renders the main index.html file from the React build folder.
     return render(request, "index.html")
 
+
 def contact(request):
     # This assumes your contact page HTML is saved as 'contact.html'
-    return render(request, 'contact.html')
+    return render(request, "contact.html")
