@@ -124,3 +124,90 @@ img{
     text-align:center;
     box-shadow: 2px 2px 3px #999;  
 }
+
+/* --- 1. Main Page Setup --- */
+.contact-page-content {
+    display: flex;
+    justify-content: center; /* Center the main information card */
+    padding: 50px 0; /* Add top/bottom padding for spacing */
+    background-color: #f8f9fa; /* Optional: light gray background for contrast */
+}
+
+/* --- 2. The Main Information Card (White Box) --- */
+.info-card {
+    width: 80%; /* Adjust width as needed */
+    max-width: 1000px; /* Cap the max width */
+    background-color: white;
+    border-radius: 15px; /* Rounded corners for the container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    overflow: hidden; /* Ensures the header image stays inside the rounded corners */
+}
+
+/* --- 3. Header Image Section --- */
+.header-image-section {
+    position: relative; /* Needed for absolute positioning of the text overlay */
+    height: 300px; /* Set a fixed height for the image area */
+}
+
+.contact-header-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the section without stretching */
+}
+
+.image-text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centers the text perfectly */
+    font-size: 8em; /* Large size */
+    font-weight: bold;
+    color: white; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adds contrast against the background image */
+    /* Add a custom font-family here for the specific look from the screenshot */
+}
+
+/* --- 4. Contact Details Row (Graphic + Text) --- */
+.contact-details-row {
+    display: flex;
+    padding: 40px;
+    align-items: center; /* Vertically centers content */
+}
+
+.contact-icon {
+    flex: 1; /* Takes up 1 part of the space (e.g., 40%) */
+    text-align: center;
+    padding-right: 20px;
+}
+
+.contact-icon img {
+    /* Style the icon image (make it the large teal color) */
+    width: 150px; 
+    /* The specific teal color might need to be set on the SVG/Image itself */
+}
+
+.vertical-divider {
+    width: 1px;
+    height: 250px; /* Adjust height based on content */
+    background-color: #ccc;
+    margin: 0 40px;
+}
+
+.contact-info {
+    flex: 2; /* Takes up 2 parts of the space (e.g., 60%) */
+    padding-left: 20px;
+    color: #007bff; /* Use your primary color for the details */
+}
+
+.contact-info a, .contact-info p {
+    font-size: 1em;
+    line-height: 1.5;
+    margin: 0;
+    padding: 2px 0;
+}
+
+.detail-header {
+    font-weight: bold;
+    color: #495057; /* Slightly darker text for headers */
+    margin-top: 10px;
+}
