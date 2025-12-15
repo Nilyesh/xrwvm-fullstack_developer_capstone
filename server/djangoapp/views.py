@@ -85,15 +85,14 @@ from .restapis import get_request
 def get_dealerships(request, state="All"):
     try:
         # --- Option 1: Direct DB query ---
-        if state == "All":
-            dealers = Dealer.objects.all()
+         if(state == "All"):
+            endpoint = "/fetchDealers"
         else:
-            dealers = Dealer.objects.filter(state=state)
+            endpoint = "/fetchDealers/"+state
+        dealerships = get_request(endpoint)
+        return JsonResponse({"status":200,"dealers":dealerships})
 
-        if dealers.exists():
-            data = list(dealers.values("id", "name", "city", "state", "address", "zip_code"))
-            return JsonResponse({"status": 200, "dealers": data})
-
+Copied
         # --- Option 2: Fallback to microservice ---
         if state == "All":
             endpoint = "/fetchDealers"
@@ -114,35 +113,39 @@ def get_dealerships(request, state="All"):
 
 
 def get_dealer_details(request, dealer_id):
-    endpoint = f"/getDealerDetails/{dealer_id}"
-    dealer = get_request(endpoint)
-    return JsonResponse({"status": 200, "dealer": dealer})
+    if(dealer_id):
+        endpoint = "/fetchDealer/"+str(dealer_id)
+        dealership = get_request(endpoint)
+        return JsonResponse({"status":200,"dealer":dealership})
+    else:
+        return JsonResponse({"status":400,"message":"Bad Request"})
 
 
 def get_dealer_reviews(request, dealer_id):
-    endpoint = f"/getDealerReviews/{dealer_id}"
-    reviews = get_request(endpoint)
-    # Optionally analyze sentiment here
-    for review in reviews:
-        review["sentiment"] = analyze_review_sentiments(review.get("review", ""))
-        print(response)
-        review_detail["sentiment"] = response["sentiment"]
-        return JsonResponse({"status": 200, "reviews": reviews})
+    # if dealer id has been provided
+    if(dealer_id):
+        endpoint = "/fetchReviews/dealer/"+str(dealer_id)
+        reviews = get_request(endpoint)
+        for review_detail in reviews:
+            response = analyze_review_sentiments(review_detail['review'])
+            print(response)
+            review_detail['sentiment'] = response['sentiment']
+        return JsonResponse({"status":200,"reviews":reviews})
     else:
-        return JsonResponse({"status": 400, "message": "Bad Request"})
+        return JsonResponse({"status":400,"message":"Bad Request"})
 
 
 @csrf_exempt
 def add_review(request):
-    if request.method == "POST":
+    if(request.user.is_anonymous == False):
+        data = json.loads(request.body)
         try:
-            data = json.loads(request.body)
             response = post_review(data)
-            return JsonResponse({"status": "success", "response": response})
-        except Exception as e:
-            logger.error(f"Add review error: {e}")
-            return JsonResponse({"error": "Invalid request"}, status=400)
-    return JsonResponse({"error": "POST request required"}, status=405)
+            return JsonResponse({"status":200})
+        except:
+            return JsonResponse({"status":401,"message":"Error in posting review"})
+    else:
+        return JsonResponse({"status":403,"message":"Unauthorized"})
 
 
 def get_cars(request):
