@@ -41,31 +41,36 @@ def logout_user(request):
 
 @csrf_exempt
 def registration(request):
-    if request.method == "POST":
-        try:
-            data = json.loads(request.body)
-            username = data.get("userName")
-            password = data.get("password")
-            first_name = data.get("firstName", "")
-            last_name = data.get("lastName", "")
-            email = data["email"]
-            username_exist = False
-            email_exist = False
-            if User.objects.filter(username=username).exists():
-                return JsonResponse({"error": "Username already exists"}, status=400)
-            user = User.objects.create_user(
-                username=username,
-                password=password,
-                first_name=first_name,
-                last_name=last_name,
-            )
-            user.save()
-            login(request, user)
-            return JsonResponse({"message": "Registration successful"}, status=201)
-        except Exception as e:
-            logger.error(f"Registration error: {e}")
-            return JsonResponse({"error": "Invalid request"}, status=400)
-    return JsonResponse({"error": "POST request required"}, status=405)
+    context = {}
+
+    # Load JSON data from the request body
+    data = json.loads(request.body)
+    username = data['userName']
+    password = data['password']
+    first_name = data['firstName']
+    last_name = data['lastName']
+    email = data['email']
+    username_exist = False
+    email_exist = False
+    try:
+        # Check if user already exists
+        User.objects.get(username=username)
+        username_exist = True
+    except:
+        # If not, simply log this is a new user
+        logger.debug("{} is new user".format(username))
+
+    # If it is a new user
+    if not username_exist:
+        # Create user in auth_user table
+        user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name,password=password, email=email)
+        # Login the user and redirect to list page
+        login(request, user)
+        data = {"userName":username,"status":"Authenticated"}
+        return JsonResponse(data)
+    else :
+        data = {"userName":username,"error":"Already Registered"}
+        return JsonResponse(data)
 
 
 from django.http import JsonResponse
