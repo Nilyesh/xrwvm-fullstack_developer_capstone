@@ -24,8 +24,13 @@ urlpatterns = [
     ),
     path("logout/", views.logout, name="logout"),
     # User authentication paths
+<<<<<<< HEAD
     path(route='login', view=views.login_user, name='login'),
     path('contact/', TemplateView.as_view(template_name="Contact.html")),
+=======
+    path("login/", view=views.login_user, name="login"),
+    path("contact/", TemplateView.as_view(template_name="Contact.html")),
+>>>>>>> c2cb0a724e21105098e6e8adea21dfbeb05dac73
     path("register/", view=views.registration, name="register"),
     # Review submission path
     path("add_review/", view=views.add_review, name="add_review"),
