@@ -83,34 +83,31 @@ from .restapis import get_request
 
 
 def get_dealerships(request, state="All"):
+    dealerships = []
     try:
-        # --- Option 1: Direct DB query ---
-         if(state == "All"):
-            endpoint = "/fetchDealers"
-        else:
-            endpoint = "/fetchDealers/"+state
-        dealerships = get_request(endpoint)
-        return JsonResponse({"status":200,"dealers":dealerships})
-
-Copied
-        # --- Option 2: Fallback to microservice ---
         if state == "All":
             endpoint = "/fetchDealers"
         else:
-            endpoint = f"/fetchDealers/{state}"
-
+            endpoint = f"/fetchDealers/state/{state}"
+        
+        # 3. Call the external service to fetch data
+        # Assuming get_request handles the full URL formation
         dealerships = get_request(endpoint)
 
-        # Ensure we always return a list
+        # 4. Handle a potential None return from get_request (optional but good practice)
         if dealerships is None:
             dealerships = []
 
+        # 5. Return the successful response
         return JsonResponse({"status": 200, "dealers": dealerships})
 
     except Exception as e:
+        # 6. Log the error (this is why you saw the 504/timeout initially)
         print(f"Error in get_dealerships: {e}")
+        
+        # 7. Return a failure status, but still return an empty list of dealers 
+        #    so the page doesn't crash on the frontend.
         return JsonResponse({"status": 500, "dealers": []})
-
 
 def get_dealer_details(request, dealer_id):
     if(dealer_id):

@@ -12,8 +12,8 @@ app.use(require('body-parser').urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const path = require('path');
-const reviews_data = JSON.parse(fs.readFileSync(path.join(__dirname, 'reviews.json'), 'utf8'));
-const dealerships_data = JSON.parse(fs.readFileSync(path.join(__dirname, 'dealerships.json'), 'utf8'));
+const reviews_data = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'reviews.json'), 'utf8'));
+const dealerships_data = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'dealerships.json'), 'utf8'));
 
 mongoose.connect("mongodb://mongo_db:27017/",{'dbName':'dealershipsDB'});
 
@@ -21,19 +21,45 @@ mongoose.connect("mongodb://mongo_db:27017/",{'dbName':'dealershipsDB'});
 const Reviews = require('./review');
 const Dealerships = require('./dealership');
 
+// --- FIX: Safely determine the array of dealership objects ---
+// Try to access the array using known names, falling back to an empty array
+const rawDealershipsArray = 
+    dealerships_data.dealerships || 
+    dealerships_data.Dealerships || // Try capitalized D
+    dealerships_data ||              // Try if it's a raw array at the root
+    [];                             // Fallback to empty array
+
+// 1. Map Dealerships Data to satisfy Mongoose Schema requirements (st -> state, Number -> String)
+const mappedDealerships = Array.isArray(rawDealershipsArray) ? rawDealershipsArray.map(dealer => ({
+    id: dealer.id,
+    city: dealer.city,
+    state: dealer.st,             // Mapped from JSON key 'st'
+    address: dealer.address,
+    zip: dealer.zip,
+    lat: String(dealer.lat),
+    long: String(dealer.long),
+    full_name: dealer.full_name,
+    short_name: dealer.short_name,
+})) : [];
+
+
+// 2. Reviews data: assume nested key based on your sample
+const rawReviews = reviews_data['reviews'] || []; 
+
+// 3. Database Seeding Logic
 (async () => {
     try {
-      await Reviews.deleteMany({});
-      await Reviews.insertMany(reviews_data['reviews']);
-  
-      await Dealerships.deleteMany({});
-      await Dealerships.insertMany(dealerships_data['dealerships']);
-  
-      console.log("Database seeded successfully");
+        await Reviews.deleteMany({});
+        await Reviews.insertMany(rawReviews);
+
+        await Dealerships.deleteMany({});
+        await Dealerships.insertMany(mappedDealerships);
+
+        console.log("Database seeded successfully");
     } catch (error) {
-      console.error("Error seeding database:", error);
+        console.error("Error seeding database:", error);
     }
-  })();
+})();
 
 
 // Express route to home

@@ -85,10 +85,10 @@ return(  <div>
      {dealersList.map(dealer => (
         <tr>
           <td>{dealer['id']}</td>
-          <td><a href={'/dealer/'+dealer['id']}>{dealer['name']}</a></td>
+          <td><a href={'/dealer/'+dealer['id']}>{dealer['full_name']}</a></td>
           <td>{dealer['city']}</td>
           <td>{dealer['address']}</td>
-          <td>{dealer['zip_code']}</td>
+          <td>{dealer['zip']}</td>
           <td>{dealer['state']}</td>
           {isLoggedIn ? (
             <td><a href={`/postreview/${dealer['id']}`}><img src={review_icon} className="review_icon" alt="Post Review"/></a></td>

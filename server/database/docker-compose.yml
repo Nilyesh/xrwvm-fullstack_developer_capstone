@@ -13,7 +13,8 @@ services:
 
   # Node api service
   api:
-    image: nodeapp
+    build: .
+    image: custom-node-api
     ports:
       - 3030:3030
     depends_on: 

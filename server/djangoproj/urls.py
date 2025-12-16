@@ -31,6 +31,7 @@ urlpatterns = [
     path("register/", TemplateView.as_view(template_name="index.html")),
     path("dealers/", TemplateView.as_view(template_name="index.html")),
     path("dealer/<int:dealer_id>", TemplateView.as_view(template_name="index.html")),
+    path('get_dealers/', djangoapp_views.get_dealerships, name='get_dealers'),
     path("postreview/<int:dealer_id>", TemplateView.as_view(template_name="index.html")),
     path("contact/", TemplateView.as_view(template_name="Contact.html")),
 ]
