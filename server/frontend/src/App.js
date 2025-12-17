@@ -5,7 +5,7 @@ import Register from "./components/Register/Register";
 import Dealers from "./components/Dealers/Dealers";
 import DealerDetails from "./components/DealerDetails";
 import PostReview from "./components/Dealers/PostReview";
-
+import Dealer from "./components/Dealers/Dealer"
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
       <Route path="/dealers" element={<Dealers/>} />
       <Route path="/dealer/:id" element={<DealerDetails />} />
       <Route path="/postreview/:id" element={<PostReview />} />
+      <Route path="/dealer/:id" element={<Dealer/>} />
   </Routes>
   );
 }

@@ -21,7 +21,7 @@ const Register = () => {
   // Handle form submission 
   const register = async (e) => { 
     e.preventDefault(); 
-    let register_url = window.location.origin + "/djangoapp/register";
+    let register_url = window.location.origin + "/djangoapp/register/";
 
     // Send POST request to register endpoint 
     const res = await fetch(register_url, { 
@@ -39,7 +39,7 @@ const Register = () => {
     });
 
     const json = await res.json();
-    if (json.status) {
+    if (json.status === "Authenticated") {
     // Save username in session and reload home
         sessionStorage.setItem('username', json.userName);
         window.location.href = window.location.origin;

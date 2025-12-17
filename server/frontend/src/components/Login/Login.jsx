@@ -9,11 +9,11 @@ const Login = ({ onClose }) => {
   const [password, setPassword] = useState("");
   const [open,setOpen] = useState(true)
 
-  let login_url = window.location.origin+"/djangoapp/login";
-
+ 
   const login = async (e) => {
     e.preventDefault();
-
+    let login_url = window.location.origin+"/djangoapp/login/";
+    
     const res = await fetch(login_url, {
         method: "POST",
         headers: {
@@ -26,12 +26,12 @@ const Login = ({ onClose }) => {
     });
     
     const json = await res.json();
-    if (json.status != null && json.status === "Authenticated") {
-        sessionStorage.setItem('username', json.userName);
-        setOpen(false);        
-    }
-    else {
-      alert("The user could not be authenticated.")
+    if (res.status === 200 || json.status === "Authenticated") {
+        sessionStorage.setItem('username', userName);
+        setOpen(false);
+        window.location.href = window.location.origin; // Force refresh to update Header
+    } else {
+        alert(json.error || "The user could not be authenticated.");
     }
 };
 

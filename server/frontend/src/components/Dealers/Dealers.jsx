@@ -19,8 +19,9 @@ const Dealers = () => {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         const retobj = await res.json();
+        console.log("Data received from backend:", retobj);
         if (retobj.status === 200) {
-          const all_dealers = Array.from(retobj.dealers ?? []);
+          const all_dealers = Array.from(retobj.dealers || retobj || []);
           const uniqueStates = [...new Set(all_dealers.map(dealer => dealer.state))];
           setStates(uniqueStates);
           setDealersList(all_dealers);
@@ -55,8 +56,8 @@ const Dealers = () => {
     }
   };
 
-
 let isLoggedIn = sessionStorage.getItem("username") != null ? true : false;
+
 return(  <div>
       <Header/>
 
