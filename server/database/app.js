@@ -15,7 +15,7 @@ const path = require('path');
 const reviews_data = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'reviews.json'), 'utf8'));
 const dealerships_data = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'dealerships.json'), 'utf8'));
 
-mongoose.connect("mongodb://mongo_db:27017/",{'dbName':'dealershipsDB'});
+mongoose.connect("mongodb://localhost:27017/",{'dbName':'dealershipsDB'});
 
 
 const Reviews = require('./review');
@@ -78,23 +78,42 @@ app.get('/fetchReviews', async (req, res) => {
 });
 
 // Express route to fetch reviews by a particular dealer
+// Express route to fetch reviews by a particular dealer
 app.get('/fetchReviews/dealer/:id', async (req, res) => {
-  try {
-    const documents = await Reviews.find({dealership: req.params.id});
-    res.json(documents);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching documents' });
-  }
+    try {
+        const documents = await Reviews.find({ dealership: req.params.id });
+        res.json(documents);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching reviews' });
+    }
+});
+
+// server/database/app.js
+
+app.get('/fetchDealer/:id', async (req, res) => {
+    try {
+        const dealerId = parseInt(req.params.id); // Convert "7" to a number
+        const dealer = await Dealerships.findOne({ id: dealerId }); // Use findOne for a single object
+        
+        if (dealer) {
+            res.json(dealer);
+        } else {
+            res.status(404).json({ error: 'Dealer not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching dealer' });
+    }
 });
 
 // Express route to fetch all dealerships
+// In your Node.js app.js
 app.get('/fetchDealers', async (req, res) => {
-try {
-    const dealers = await Dealerships.find();
-    res.json(dealers);
-  } catch (error) {
-    res.status(500).json({error: 'Error fetching documents'});
-  }
+    try {
+        const documents = await Dealerships.find();
+        res.json(documents);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching dealerships' });
+    }
 });
 
 // Express route to fetch Dealers by a particular state
@@ -108,16 +127,7 @@ try {
     });
 
 // Express route to fetch dealer by a particular id
-    app.get('/fetchDealer/:id', async (req, res) => {
-    try {
-        const dealerId = req.params.id;
-        const dealer = await Dealerships.findById(dealerId);
-        res.json(dealer);
-      } catch (error) {
-        res.status(500).json({error: 'Error fetching documents' });
-      }
-    });
-
+   
 //Express route to insert review
 app.post('/insert_review', express.raw({ type: '*/*' }), async (req, res) => {
   data = JSON.parse(req.body);
@@ -146,6 +156,6 @@ app.post('/insert_review', express.raw({ type: '*/*' }), async (req, res) => {
 });
 
 // Start the Express server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(3031, () => {
+    console.log('Express server started on port 3031');
 });

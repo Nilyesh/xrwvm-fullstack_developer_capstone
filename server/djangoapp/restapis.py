@@ -5,24 +5,34 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-backend_url = os.getenv("backend_url", default="http://localhost:3030")
+backend_url = "http://localhost:3031"
 sentiment_analyzer_url = os.getenv("sentiment_analyzer_url", default="http://localhost:5050/")
 
 
 def get_request(endpoint, **kwargs):
     params = ""
-    if kwargs:
+    if (kwargs):
         for key, value in kwargs.items():
             params = params + key + "=" + value + "&"
-    request_url = backend_url + endpoint + "?" + params
+
+    # Only add the '?' if there are actually params
+    if params:
+        request_url = backend_url + endpoint + "?" + params
+    else:
+        request_url = backend_url + endpoint
+
     print("GET from {} ".format(request_url))
     try:
-        # Call get method of requests library with URL and parameters
         response = requests.get(request_url)
-        return response.json()
-    except:
-        # If any error occurs
-        print("Network exception occurred")
+        # Check if the response is actually valid before calling .json()
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print(f"Error: Received status code {response.status_code}")
+            return None
+    except Exception as e:
+        print(f"Network exception occurred: {e}")
+        return None
 
 
 def analyze_review_sentiments(text):
