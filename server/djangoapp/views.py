@@ -91,12 +91,12 @@ def get_dealerships(request, state="All"):
             endpoint = f"/fetchDealers/state/{state}"
 
         dealerships = get_request(endpoint)
-        
+
         if dealerships is None:
             dealerships = []
 
         # FIX: Change 'dealership' to 'dealerships'
-        return JsonResponse({"status": 200, "dealers": dealerships}) 
+        return JsonResponse({"status": 200, "dealers": dealerships})
 
     except Exception as e:
         print(f"Error in get_dealership: {e}")
@@ -111,24 +111,25 @@ def get_dealerships(request, state="All"):
 
 
 def get_dealer_details(request, dealer_id):
-    if(dealer_id):
+    if dealer_id:
         endpoint = "/fetchDealer/" + str(dealer_id)
         dealership = get_request(endpoint)
 
         if dealership is None:
             return JsonResponse({"status": 404, "message": "Dealer not found"})
-        
+
         # FIX: Ensure this is NOT inside the 'if dealership is None' block
         return JsonResponse({"status": 200, "dealer": dealership})
     else:
         return JsonResponse({"status": 400, "message": "Bad Request"})
+
 
 def get_dealer_reviews(request, dealer_id):
     if dealer_id:
         endpoint = f"/fetchReviews/dealer/{dealer_id}"
         try:
             reviews = get_request(endpoint)
-            
+
             # If reviews is None or empty, return early with an empty list
             if not reviews:
                 return JsonResponse({"status": 200, "reviews": []})
@@ -145,6 +146,7 @@ def get_dealer_reviews(request, dealer_id):
         except Exception as e:
             return JsonResponse({"status": 500, "message": "Internal Server Error"})
     return JsonResponse({"status": 400, "message": "Bad Request"})
+
 
 @csrf_exempt
 def add_review(request):

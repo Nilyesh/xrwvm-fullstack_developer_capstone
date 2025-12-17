@@ -24,20 +24,16 @@ from djangoapp import views as djangoapp_views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("djangoapp/", include("djangoapp.urls")),
-    
     # Frontend routes - These point to index.html so React can handle the UI
     path("login/", TemplateView.as_view(template_name="index.html")),
     path("register/", TemplateView.as_view(template_name="index.html")),
     path("dealers/", TemplateView.as_view(template_name="index.html")),
     path("postreview/<int:dealer_id>/", TemplateView.as_view(template_name="index.html")),
-    
     # ADD THIS LINE: This matches the change we made in the djangoapp/urls.py
     path("dealer_details/<int:dealer_id>/", TemplateView.as_view(template_name="index.html")),
-
     # Static Pages
-    path("about/", TemplateView.as_view(template_name="index.html")), # Use index.html if integrated in React
+    path("about/", TemplateView.as_view(template_name="index.html")),  # Use index.html if integrated in React
     path("contact/", TemplateView.as_view(template_name="index.html")),
-    
     # Home Page
     path("", TemplateView.as_view(template_name="index.html")),
 ]
