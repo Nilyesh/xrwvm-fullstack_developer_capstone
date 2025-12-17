@@ -112,13 +112,15 @@ def get_dealerships(request, state="All"):
 
 # server/djangoapp/views.py
 
+
 def get_dealer_details(request, dealer_id):
-    if(dealer_id):
-        endpoint = "/fetchDealer/"+str(dealer_id)
-        dealership = get_request(endpoint) # This calls restapis.py
-        return JsonResponse({"status":200,"dealer":dealership})
+    if dealer_id:
+        endpoint = "/fetchDealer/" + str(dealer_id)
+        dealership = get_request(endpoint)  # This calls restapis.py
+        return JsonResponse({"status": 200, "dealer": dealership})
     else:
-        return JsonResponse({"status":400,"message":"Bad Request"})
+        return JsonResponse({"status": 400, "message": "Bad Request"})
+
 
 def get_dealer_reviews(request, dealer_id):
     # 1. Check if dealer_id is provided
@@ -128,9 +130,9 @@ def get_dealer_reviews(request, dealer_id):
 
         try:
             # 2. Call the Node.js microservice
-            print(f"Calling Node.js at: {endpoint}") # DEBUG LINE
+            print(f"Calling Node.js at: {endpoint}")  # DEBUG LINE
             reviews = get_request(endpoint)
-            print(f"Reviews received: {reviews}")    # DEBUG LINE
+            print(f"Reviews received: {reviews}")  # DEBUG LINE
 
             # 3. Check if reviews exist; if not, initialize as empty list
             if reviews is None:
