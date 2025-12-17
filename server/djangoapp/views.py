@@ -121,14 +121,14 @@ def get_dealer_details(request, dealer_id):
 
 def get_dealer_reviews(request, dealer_id):
     # 1. Check if dealer_id is provided
-    if (dealer_id):
+    if dealer_id:
         # FIX: Use an f-string (the 'f' before the quotes) to insert the dealer_id
         endpoint = f"/fetchReviews/dealer/{dealer_id}"
-        
+
         try:
             # 2. Call the Node.js microservice
             reviews = get_request(endpoint)
-            
+
             # 3. Check if reviews exist; if not, initialize as empty list
             if reviews is None:
                 reviews = []
@@ -139,17 +139,18 @@ def get_dealer_reviews(request, dealer_id):
                 response = analyze_review_sentiments(review_detail["review"])
                 # Add sentiment key to the review dictionary
                 review_detail["sentiment"] = response.get("sentiment", "neutral")
-            
+
             return JsonResponse({"status": 200, "reviews": reviews})
-            
+
         except Exception as e:
             # This captures errors from get_request or analyze_review_sentiments
             print(f"Error in get_dealer_reviews: {e}")
             return JsonResponse({"status": 500, "message": "Error fetching reviews"})
-    
+
     # 5. Handle case where dealer_id is missing
     else:
         return JsonResponse({"status": 400, "message": "Bad Request: Missing dealer_id"})
+
 
 @csrf_exempt
 def add_review(request):
