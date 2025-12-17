@@ -1,45 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Header from '../Header/Header';
 import "./Dealers.css";
-import "../assets/style.css";
+
+// Importing assets correctly
 import positive_icon from "../assets/positive.png";
 import neutral_icon from "../assets/neutral.png";
 import negative_icon from "../assets/negative.png";
 import review_icon from "../assets/reviewbutton.png";
-import Header from '../Header/Header';
 
 const Dealer = () => {
   const [dealer, setDealer] = useState({});
   const [reviews, setReviews] = useState([]);
   const [unreviewed, setUnreviewed] = useState(false);
-  const [postReview, setPostReview] = useState(<></>);
+  const { id } = useParams();
 
-  const params = useParams();
-  const id = params.id;
-  const root_url = window.location.origin;
-  
-  const dealer_url = `${root_url}/djangoapp/dealer/${id}/`;
-  const reviews_url = `${root_url}/djangoapp/reviews/dealer/${id}/`;
-  const post_review_url = `${root_url}/postreview/${id}/`;
+  /// Corrected URLs to match your specific urlpatterns
+const dealer_url = `/djangoapp/dealer/${id}/`; 
+const reviews_url = `/djangoapp/reviews/dealer/${id}/`;
+const post_review_url = `/djangoapp/postreview/${id}/`;
 
   const get_dealer = async () => {
-    console.log("Fetching dealer from URL:", dealer_url);
     const res = await fetch(dealer_url);
     const retobj = await res.json();
-    
     if (retobj.status === 200) {
-      // If the backend returns a single object, use it directly. 
-      // If it returns a list, take the first item.
-      const data = Array.isArray(retobj.dealer) ? retobj.dealer[0] : retobj.dealer;
-      setDealer(data);
+      setDealer(retobj.dealer);
     }
-  };    
+  };
 
   const get_reviews = async () => {
     const res = await fetch(reviews_url);
     const retobj = await res.json();
     if (retobj.status === 200) {
-      if (retobj.reviews && retobj.reviews.length > 0) {
+      if (retobj.reviews.length > 0) {
         setReviews(retobj.reviews);
       } else {
         setUnreviewed(true);
@@ -48,51 +41,61 @@ const Dealer = () => {
   };
 
   const senti_icon = (sentiment) => {
-    return sentiment === "positive" ? positive_icon : 
-           sentiment === "negative" ? negative_icon : neutral_icon;
+    if (sentiment === "positive") return positive_icon;
+    if (sentiment === "negative") return negative_icon;
+    return neutral_icon;
   };
 
   useEffect(() => {
     get_dealer();
     get_reviews();
-    if (sessionStorage.getItem("username")) {
-      // FIX: Changed post_review to post_review_url
-      setPostReview(
-            <a href={post_review_url}>
-        <img src={review_icon} style={{width:'10%', marginLeft:'10px', marginTop:'10px'}} alt='Post Review'/>
-        </a>
-      );
-    }
-  }, [id]); // Watch for ID changes
+// eslint-disable-next-line react-hooks/exhaustive-deps  
+}, [id]);
+
+  // Guard clause to prevent crash while loading
+  if (!dealer || Object.keys(dealer).length === 0) {
+    return (
+        <div>
+            <Header />
+            <div className="container mt-5">
+                <div className="alert alert-warning">
+                    <strong>Status:</strong> Component loaded, but waiting for data for Dealer #{id}...
+                    <br />
+                    Check the Network tab for "/djangoapp/get_dealer/{id}/"
+                </div>
+            </div>
+        </div>
+    );
+  }
 
   return (
-    <div style={{margin:"20px"}}>
-      <Header/>
-      <div style={{marginTop:"10px"}}>
-        <h1 style={{color:"grey"}}>{dealer.full_name}{postReview}</h1>
-        <h4 style={{color:"grey"}}>
-            {dealer.city}, {dealer.address}, Zip - {dealer.zip}, {dealer.state}
-        </h4>
+    <div className="container" style={{ margin: "20px" }}>
+      <Header />
+      <div className="card" style={{ marginTop: "20px", padding: "20px" }}>
+        <h1>TEST: DYNAMIC DEALER PAGE LOADED</h1>
+        <p className="card-text">
+          <strong>Location:</strong> {dealer.city}, {dealer.address}, Zip - {dealer.zip}, {dealer.state}
+        </p>
       </div>
-      <div className="reviews_panel">
-        {reviews.length === 0 && unreviewed === false ? (
-          <p>Loading Reviews....</p>
-        ) : unreviewed === true ? (
-          <div>No reviews yet!</div>
-        ) : (
-          reviews.map(review => (
-            <div className='review_panel' key={review.id}>
-              <img src={senti_icon(review.sentiment)} className="emotion_icon" alt='Sentiment'/>
-              <div className='review'>{review.review}</div>
-              <div className="reviewer">
-                {review.name} {review.car_make} {review.car_model} {review.car_year}
-              </div>
-            </div>
-          ))
-        )}
-      </div>  
+      
+      <div className="reviews_panel mt-4" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+  {reviews.map(review => (
+    <div className='card' key={review.id} style={{ width: '18rem', padding: '10px' }}>
+      <img src={senti_icon(review.sentiment)} className="emotion_icon" alt='Sentiment' style={{ width: '40px', marginLeft: '10px' }} />
+      <div className="card-body">
+        <p className='card-text' style={{ fontStyle: 'italic' }}>"{review.review}"</p>
+        <h5 className="card-title" style={{ fontSize: '1rem' }}>
+          {review.name}
+        </h5>
+        <h6 className="card-subtitle mb-2 text-muted">
+          {review.car_make} {review.car_model}, {review.car_year}
+        </h6>
+      </div>
     </div>
+  ))}
+</div>
+</div>
   );
-}
+}; // This closing brace MUST be after the return
 
 export default Dealer;

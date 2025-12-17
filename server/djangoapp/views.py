@@ -90,20 +90,17 @@ def get_dealerships(request, state="All"):
         else:
             endpoint = f"/fetchDealers/state/{state}"
 
-        # 3. Call the external service to fetch data
-        # Assuming get_request handles the full URL formation
         dealerships = get_request(endpoint)
-        print(f"DEBUG: Data received from Node API for state {state}: {dealerships}")
-        # 4. Handle a potential None return from get_request (optional but good practice)
+        
         if dealerships is None:
             dealerships = []
 
-        # 5. Return the successful response
-        return JsonResponse({"status": 200, "dealers": dealerships})
+        # FIX: Change 'dealership' to 'dealerships'
+        return JsonResponse({"status": 200, "dealers": dealerships}) 
 
     except Exception as e:
-        # 6. Log the error (this is why you saw the 504/timeout initially)
-        print(f"Error in get_dealerships: {e}")
+        print(f"Error in get_dealership: {e}")
+        return JsonResponse({"status": 500, "dealers": []})
 
         # 7. Return a failure status, but still return an empty list of dealers
         #    so the page doesn't crash on the frontend.
@@ -114,48 +111,40 @@ def get_dealerships(request, state="All"):
 
 
 def get_dealer_details(request, dealer_id):
-    if dealer_id:
+    if(dealer_id):
         endpoint = "/fetchDealer/" + str(dealer_id)
-        dealership = get_request(endpoint)  # This calls restapis.py
+        dealership = get_request(endpoint)
+
+        if dealership is None:
+            return JsonResponse({"status": 404, "message": "Dealer not found"})
+        
+        # FIX: Ensure this is NOT inside the 'if dealership is None' block
         return JsonResponse({"status": 200, "dealer": dealership})
     else:
         return JsonResponse({"status": 400, "message": "Bad Request"})
 
-
 def get_dealer_reviews(request, dealer_id):
-    # 1. Check if dealer_id is provided
     if dealer_id:
-        # FIX: Use an f-string (the 'f' before the quotes) to insert the dealer_id
         endpoint = f"/fetchReviews/dealer/{dealer_id}"
-
         try:
-            # 2. Call the Node.js microservice
-            print(f"Calling Node.js at: {endpoint}")  # DEBUG LINE
             reviews = get_request(endpoint)
-            print(f"Reviews received: {reviews}")  # DEBUG LINE
+            
+            # If reviews is None or empty, return early with an empty list
+            if not reviews:
+                return JsonResponse({"status": 200, "reviews": []})
 
-            # 3. Check if reviews exist; if not, initialize as empty list
-            if reviews is None:
-                reviews = []
-
-            # 4. Iterate and add sentiment analysis
             for review_detail in reviews:
-                # Call your sentiment analyzer service
-                response = analyze_review_sentiments(review_detail["review"])
-                # Add sentiment key to the review dictionary
-                review_detail["sentiment"] = response.get("sentiment", "neutral")
+                try:
+                    response = analyze_review_sentiments(review_detail["review"])
+                    review_detail["sentiment"] = response.get("sentiment", "neutral")
+                except Exception as e:
+                    print(f"Sentiment error: {e}")
+                    review_detail["sentiment"] = "neutral"
 
             return JsonResponse({"status": 200, "reviews": reviews})
-
         except Exception as e:
-            # This captures errors from get_request or analyze_review_sentiments
-            print(f"Error in get_dealer_reviews: {e}")
-            return JsonResponse({"status": 500, "message": "Error fetching reviews"})
-
-    # 5. Handle case where dealer_id is missing
-    else:
-        return JsonResponse({"status": 400, "message": "Bad Request: Missing dealer_id"})
-
+            return JsonResponse({"status": 500, "message": "Internal Server Error"})
+    return JsonResponse({"status": 400, "message": "Bad Request"})
 
 @csrf_exempt
 def add_review(request):

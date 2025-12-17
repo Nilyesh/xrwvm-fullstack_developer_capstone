@@ -87,7 +87,8 @@ const PostReview = () => {
 
   get_dealer();
   get_cars();
-}, []); // Empty dependency array means this runs once on mount
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [id]); // Empty dependency array means this runs once on mount
 
 
   return (
