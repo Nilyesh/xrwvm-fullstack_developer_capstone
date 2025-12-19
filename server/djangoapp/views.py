@@ -150,15 +150,22 @@ def get_dealer_reviews(request, dealer_id):
 
 @csrf_exempt
 def add_review(request):
-    if request.user.is_anonymous == False:
-        data = json.loads(request.body)
-        try:
-            response = post_review(data)
-            return JsonResponse({"status": 200})
-        except:
-            return JsonResponse({"status": 401, "message": "Error in posting review"})
-    else:
-        return JsonResponse({"status": 403, "message": "Unauthorized"})
+    if request.method == "POST":
+        if not request.user.is_anonymous:
+            try:
+                data = json.loads(request.body)
+                response = post_review(data)
+                # Check if the Node.js microservice returned a successful saved object
+                if response and 'id' in response:
+                    return JsonResponse({"status": 200})
+                else:
+                    return JsonResponse({"status": 400, "message": "Microservice failed to save review"})
+            except Exception as e:
+                print(f"Error in add_review: {e}")
+                return JsonResponse({"status": 500, "message": str(e)})
+        else:
+            return JsonResponse({"status": 403, "message": "Unauthorized"})
+    return JsonResponse({"status": 405, "message": "Method not allowed"})
 
 
 def get_cars(request):

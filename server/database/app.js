@@ -5,7 +5,7 @@ const  cors = require('cors');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = 3030;
+const port = 3031;
 
 app.use(cors());
 app.use(require('body-parser').urlencoded({ extended: false }));
@@ -130,29 +130,30 @@ app.get('/fetchDealers', async (req, res) => {
    
 //Express route to insert review
 app.post('/insert_review', express.raw({ type: '*/*' }), async (req, res) => {
-  data = JSON.parse(req.body);
-  const documents = await Reviews.find().sort( { id: -1 } )
-  let new_id = documents[0]['id']+1
+    try {
+        const data = JSON.parse(req.body.toString());
+        // Sort by id descending to get the highest one
+        const documents = await Reviews.find().sort({ id: -1 }).limit(1);
+        let new_id = (documents.length > 0) ? documents[0].id + 1 : 1;
 
-  const review = new Reviews({
-		"id": new_id,
-		"name": data['name'],
-		"dealership": data['dealership'],
-		"review": data['review'],
-		"purchase": data['purchase'],
-		"purchase_date": data['purchase_date'],
-		"car_make": data['car_make'],
-		"car_model": data['car_model'],
-		"car_year": data['car_year'],
-	});
+        const review = new Reviews({
+            "id": new_id,
+            "name": data['name'],
+            "dealership": data['dealership'],
+            "review": data['review'],
+            "purchase": data['purchase'],
+            "purchase_date": data['purchase_date'],
+            "car_make": data['car_make'],
+            "car_model": data['car_model'],
+            "car_year": data['car_year'],
+        });
 
-  try {
-    const savedReview = await review.save();
-    res.json(savedReview);
-  } catch (error) {
-		console.log(error);
-    res.status(500).json({ error: 'Error inserting review' });
-  }
+        const savedReview = await review.save();
+        res.status(200).json(savedReview);
+    } catch (error) {
+        console.error("Node.js Error:", error);
+        res.status(500).json({ error: 'Error inserting review' });
+    }
 });
 
 // Start the Express server

@@ -50,13 +50,15 @@ def analyze_review_sentiments(text):
 
 
 def post_review(data_dict):
-    request_url = backend_url + "/insert_review"
+    request_url = "http://127.0.0.1:3031 /insert_review"
     try:
         response = requests.post(request_url, json=data_dict)
-        print(response.json())
-        return response.json()
-    except:
-        print("Network exception occurred")
+        if response.status_code == 200:
+            return response.json()
+        return None
+    except Exception as e:
+        print(f"Network exception occurred: {e}")
+        return None
 
 
 # Add code for posting review

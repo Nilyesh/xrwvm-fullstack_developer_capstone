@@ -17,8 +17,8 @@ const PostReview = () => {
   let root_url = curr_url.substring(0,curr_url.indexOf("postreview"));
   let params = useParams();
   let id =params.id;
-  let dealer_url = root_url+`djangoapp/dealer/${id}`;
-  let review_url = root_url+`djangoapp/add_review`;
+  let dealer_url = root_url+`djangoapp/dealer_details/${id}`;
+  let review_url = root_url+"djangoapp/add_review/";
   let carmodels_url = root_url+`djangoapp/get_cars`;
 
   const postreview = async ()=>{
@@ -56,12 +56,18 @@ const PostReview = () => {
       body: jsoninput,
   });
 
-  const json = await res.json();
-  if (json.status === 200) {
-      window.location.href = window.location.origin+"/dealer/"+id;
-  }
+  if (res.ok) {
+      const json = await res.json();
+      if (json.status === 200) {
+        window.location.href = window.location.origin + "/dealer_details/" + id;
+      } else {
+        alert("Error from server: " + json.message);
+      }
+    } else {
+      alert("The server returned an error. Check the Django terminal for 'Connection Refused'.");
+    }
+  };
 
-  }
   useEffect(() => {
   const get_dealer = async () => {
     const res = await fetch(dealer_url, {
@@ -95,7 +101,8 @@ const PostReview = () => {
     <div>
       <Header/>
       <div  style={{margin:"5%"}}>
-      <h1 style={{color:"darkblue"}}>{dealer.full_name}</h1>
+      <h1 style={{color:"darkblue"}}>{dealer.full_name}
+      </h1>
       <textarea id='review' cols='50' rows='7' onChange={(e) => setReview(e.target.value)}></textarea>
       <div className='input_field'>
       Purchase Date <input type="date" onChange={(e) => setDate(e.target.value)}/>
@@ -111,7 +118,7 @@ const PostReview = () => {
       </div >
 
       <div className='input_field'>
-      Car Year <input type="int" onChange={(e) => setYear(e.target.value)} max={2023} min={2015}/>
+      Car Year <input type="number" onChange={(e) => setYear(e.target.value)} max={2025} min={2015}/>
       </div>
 
       <div>

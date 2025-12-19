@@ -35,7 +35,7 @@ urlpatterns = [
     path("about/", TemplateView.as_view(template_name="index.html")),  # Use index.html if integrated in React
     path("contact/", TemplateView.as_view(template_name="index.html")),
     # Home Page
-    path("", TemplateView.as_view(template_name="index.html")),
+    path("", TemplateView.as_view(template_name="Home.html")),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -72,7 +72,9 @@ const post_review_url = `/djangoapp/postreview/${id}/`;
     <div className="container" style={{ margin: "20px" }}>
       <Header />
       <div className="card" style={{ marginTop: "20px", padding: "20px" }}>
-        <h1>TEST: DYNAMIC DEALER PAGE LOADED</h1>
+        <h1 style={{ color: "black" }}>
+            {dealer.full_name}
+        </h1>
         <p className="card-text">
           <strong>Location:</strong> {dealer.city}, {dealer.address}, Zip - {dealer.zip}, {dealer.state}
         </p>
