@@ -156,7 +156,7 @@ def add_review(request):
                 data = json.loads(request.body)
                 response = post_review(data)
                 # Check if the Node.js microservice returned a successful saved object
-                if response and 'id' in response:
+                if response and "id" in response:
                     return JsonResponse({"status": 200})
                 else:
                     return JsonResponse({"status": 400, "message": "Microservice failed to save review"})
