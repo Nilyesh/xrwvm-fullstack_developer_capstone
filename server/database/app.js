@@ -131,9 +131,9 @@ app.get('/fetchDealers', async (req, res) => {
 //Express route to insert review
 app.post('/insert_review', express.raw({ type: '*/*' }), async (req, res) => {
     try {
-        const data = JSON.parse(req.body.toString());
+        const data = req.body;
         // Sort by id descending to get the highest one
-        const documents = await Reviews.find().sort({ id: -1 }).limit(1);
+        const documents = await Reviews.find().sort({ id: -1 });
         let new_id = (documents.length > 0) ? documents[0].id + 1 : 1;
 
         const review = new Reviews({
@@ -149,9 +149,9 @@ app.post('/insert_review', express.raw({ type: '*/*' }), async (req, res) => {
         });
 
         const savedReview = await review.save();
-        res.status(200).json(savedReview);
+        res.json(savedReview);
     } catch (error) {
-        console.error("Node.js Error:", error);
+        console.log(error) ;
         res.status(500).json({ error: 'Error inserting review' });
     }
 });

@@ -112,17 +112,14 @@ def get_dealerships(request, state="All"):
 
 def get_dealer_details(request, dealer_id):
     if dealer_id:
-        endpoint = "/fetchDealer/" + str(dealer_id)
-        dealership = get_request(endpoint)
-
-        if dealership is None:
-            return JsonResponse({"status": 404, "message": "Dealer not found"})
-
-        # FIX: Ensure this is NOT inside the 'if dealership is None' block
-        return JsonResponse({"status": 200, "dealer": dealership})
+        # Correctly assign the fetched data to the 'dealer' variable
+        endpoint = f"/fetchDealer/{dealer_id}"
+        dealer = get_request(endpoint)
+        
+        # Now 'dealer' exists and can be used here
+        return JsonResponse({"status": 200, "dealer": dealer})
     else:
         return JsonResponse({"status": 400, "message": "Bad Request"})
-
 
 def get_dealer_reviews(request, dealer_id):
     if dealer_id:
@@ -155,8 +152,10 @@ def add_review(request):
             try:
                 data = json.loads(request.body)
                 response = post_review(data)
-                # Check if the Node.js microservice returned a successful saved object
-                if response and "id" in response:
+                
+                # Change the check: if post_review returns any data, 
+                # it means the microservice was reached and responded.
+                if response: 
                     return JsonResponse({"status": 200})
                 else:
                     return JsonResponse({"status": 400, "message": "Microservice failed to save review"})

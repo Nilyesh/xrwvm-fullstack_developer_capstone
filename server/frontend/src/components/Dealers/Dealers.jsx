@@ -20,7 +20,7 @@ const Dealers = () => {
 
         // Check if retobj itself is the array OR if it's inside retobj.dealers
         // Also handle cases where status might be a string "200" or a number 200
-        if (retobj.status == 200 || Array.isArray(retobj)) {
+        if (retobj.status === 200 || Array.isArray(retobj)) {
           const all_dealers = Array.isArray(retobj) ? retobj : (retobj.dealers || []);
           
           if (all_dealers.length > 0) {
@@ -64,8 +64,7 @@ let isLoggedIn = sessionStorage.getItem("username") != null ? true : false;
 
 return(  <div>
       <Header/>
-
-     <table className='table'>
+    <table className='table'>
       <tr>
       <th>ID</th>
       <th>Dealer Name</th>

@@ -18,7 +18,7 @@ const Dealer = () => {
   /// Corrected URLs to match your specific urlpatterns
 const dealer_url = `/djangoapp/dealer/${id}/`; 
 const reviews_url = `/djangoapp/reviews/dealer/${id}/`;
-const post_review_url = `/djangoapp/postreview/${id}/`;
+const post_review_url = `/postreview/${id}/`;
 
   const get_dealer = async () => {
     const res = await fetch(dealer_url);
@@ -60,8 +60,6 @@ const post_review_url = `/djangoapp/postreview/${id}/`;
             <div className="container mt-5">
                 <div className="alert alert-warning">
                     <strong>Status:</strong> Component loaded, but waiting for data for Dealer #{id}...
-                    <br />
-                    Check the Network tab for "/djangoapp/get_dealer/{id}/"
                 </div>
             </div>
         </div>
@@ -71,33 +69,53 @@ const post_review_url = `/djangoapp/postreview/${id}/`;
   return (
     <div className="container" style={{ margin: "20px" }}>
       <Header />
+      
+      {/* Dealer Info Card */}
       <div className="card" style={{ marginTop: "20px", padding: "20px" }}>
-        <h1 style={{ color: "black" }}>
-            {dealer.full_name}
-        </h1>
-        <p className="card-text">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h1 style={{ color: "black", margin: 0 }}>{dealer.full_name}</h1>
+            
+            {/* Link to Post Review with the Button Icon */}
+            <a href={post_review_url}>
+                <img 
+                    src={review_icon} 
+                    style={{ width: '50px', cursor: 'pointer' }} 
+                    alt="Post Review" 
+                />
+            </a>
+        </div>
+        
+        <p className="card-text" style={{ marginTop: '10px' }}>
           <strong>Location:</strong> {dealer.city}, {dealer.address}, Zip - {dealer.zip}, {dealer.state}
         </p>
       </div>
       
+      {/* Reviews Section */}
       <div className="reviews_panel mt-4" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-  {reviews.map(review => (
-    <div className='card' key={review.id} style={{ width: '18rem', padding: '10px' }}>
-      <img src={senti_icon(review.sentiment)} className="emotion_icon" alt='Sentiment' style={{ width: '40px', marginLeft: '10px' }} />
-      <div className="card-body">
-        <p className='card-text' style={{ fontStyle: 'italic' }}>"{review.review}"</p>
-        <h5 className="card-title" style={{ fontSize: '1rem' }}>
-          {review.name}
-        </h5>
-        <h6 className="card-subtitle mb-2 text-muted">
-          {review.car_make} {review.car_model}, {review.car_year}
-        </h6>
+        {reviews.length === 0 ? (
+          <div className="alert alert-info">No reviews yet for this dealership.</div>
+        ) : (
+          reviews.map(review => (
+            <div className='card' key={review.id} style={{ width: '18rem', padding: '10px' }}>
+              <img 
+                src={senti_icon(review.sentiment)} 
+                className="emotion_icon" 
+                alt='Sentiment' 
+                style={{ width: '40px' }} 
+              />
+              <div className="card-body">
+                <p className='card-text' style={{ fontStyle: 'italic' }}>"{review.review}"</p>
+                <h5 className="card-title" style={{ fontSize: '1rem' }}>{review.name}</h5>
+                <h6 className="card-subtitle mb-2 text-muted">
+                  {review.car_make} {review.car_model}, {review.car_year}
+                </h6>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
-  ))}
-</div>
-</div>
   );
-}; // This closing brace MUST be after the return
+};
 
 export default Dealer;

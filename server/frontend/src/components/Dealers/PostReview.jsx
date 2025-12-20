@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import "./Dealers.css";
 import "../assets/style.css";
 import Header from '../Header/Header';
-
+import review_icon from "../assets/reviewbutton.png";
 
 const PostReview = () => {
   const [dealer, setDealer] = useState({});
@@ -13,13 +13,15 @@ const PostReview = () => {
   const [date, setDate] = useState("");
   const [carmodels, setCarmodels] = useState([]);
 
-  let curr_url = window.location.href;
-  let root_url = curr_url.substring(0,curr_url.indexOf("postreview"));
-  let params = useParams();
-  let id =params.id;
-  let dealer_url = root_url+`djangoapp/dealer_details/${id}`;
-  let review_url = root_url+"djangoapp/add_review/";
-  let carmodels_url = root_url+`djangoapp/get_cars`;
+let curr_url = window.location.href;
+let root_url = curr_url.substring(0, curr_url.indexOf("postreview"));
+let params = useParams();
+let id = params.id;
+
+// Use 'get_dealer' (the API) instead of 'dealer_details' (the page)
+let dealer_url = root_url + `djangoapp/get_dealer/${id}/`;
+let review_url = root_url + "djangoapp/add_review/";
+let carmodels_url = root_url + "djangoapp/get_cars";
 
   const postreview = async ()=>{
     let name = sessionStorage.getItem("firstname")+" "+sessionStorage.getItem("lastname");
@@ -68,41 +70,44 @@ const PostReview = () => {
     }
   };
 
-  useEffect(() => {
-  const get_dealer = async () => {
-    const res = await fetch(dealer_url, {
-      method: "GET"
-    });
+ useEffect(() => {
+   const get_dealer = async () => {
+    const res = await fetch(dealer_url, { method: "GET" });
     const retobj = await res.json();
-
+    
     if (retobj.status === 200) {
-      let dealerobjs = Array.from(retobj.dealer);
-      if (dealerobjs.length > 0) setDealer(dealerobjs[0]);
+        // Look at your Django return: return JsonResponse({"status": 200, "dealer": dealer})
+        // If 'dealer' is already a single object, use it directly.
+        // If it's a list, use retobj.dealer[0].
+        if (retobj.dealer) {
+            const dealerData = Array.isArray(retobj.dealer) ? retobj.dealer[0] : retobj.dealer;
+            setDealer(dealerData);
+        }
     }
-  };
+};
 
-  const get_cars = async () => {
-    const res = await fetch(carmodels_url, {
-      method: "GET"
-    });
+    const get_cars = async () => {
+    const res = await fetch(carmodels_url, { method: "GET" });
     const retobj = await res.json();
+    
+    // Debugging: Log this to see the exact structure in the browser console
+    console.log("Cars data received:", retobj);
 
-    let carmodelsarr = Array.from(retobj.CarModels);
-    setCarmodels(carmodelsarr);
-  };
-
-  get_dealer();
-  get_cars();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [id]); // Empty dependency array means this runs once on mount
-
+    if (retobj.CarModels) {
+        setCarmodels(Array.from(retobj.CarModels));
+    } else if (retobj.car_models) { // Check for lowercase variation
+        setCarmodels(Array.from(retobj.car_models));
+    }
+};
+    get_dealer();
+    get_cars();
+}, [dealer_url, carmodels_url]); // Added dependencies to ensure it runs when URLs change
 
   return (
     <div>
       <Header/>
       <div  style={{margin:"5%"}}>
-      <h1 style={{color:"darkblue"}}>{dealer.full_name}
-      </h1>
+      <h1 style={{ color: "darkblue" }}>{dealer.full_name}</h1>
       <textarea id='review' cols='50' rows='7' onChange={(e) => setReview(e.target.value)}></textarea>
       <div className='input_field'>
       Purchase Date <input type="date" onChange={(e) => setDate(e.target.value)}/>
