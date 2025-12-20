@@ -17,7 +17,7 @@ urlpatterns = [
     path(route="get_dealers/<str:state>/", view=views.get_dealerships, name="get_dealers_by_state"),
     path(route="dealer/<int:dealer_id>/", view=views.get_dealer_details, name="getdealer_details"),
     path(route="reviews/dealer/<int:dealer_id>/", view=views.get_dealer_reviews, name="dealer_reviews"),
-    path(route='get_dealer/<int:dealer_id>/', view=views.get_dealer_details, name='get_dealer_details'),
+    path(route="get_dealer/<int:dealer_id>/", view=views.get_dealer_details, name="get_dealer_details"),
     # --- 2. USER AUTHENTICATION ROUTES ---
     path(route="login/", view=views.login_user, name="login"),
     path(route="register/", view=views.registration, name="register"),
