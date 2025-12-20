@@ -16,11 +16,7 @@ def transform_fixture(input_path, output_path, model_name):
     transformed_data = []
 
     for dealer in dealers:
-        new_dealer_obj = {
-            "model": model_name,
-            "pk": dealer.pop("id"),
-            "fields": dealer
-        }
+        new_dealer_obj = {"model": model_name, "pk": dealer.pop("id"), "fields": dealer}
         transformed_data.append(new_dealer_obj)
 
     with open(output_path, "w") as f_out:
